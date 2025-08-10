@@ -27,4 +27,4 @@ The server will start on port `8080` by default.
 
 ## API Endpoints
 
-You can find example cURL requests for the `signup` and `login` endpoints in the `requests.txt` file.
+You can find example cURL requests for the `signup` and `login` endpoints in the `requests.txt` file.# split-expense

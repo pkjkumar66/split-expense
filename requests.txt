@@ -1,0 +1,116 @@
+# Users
+curl -X POST http://localhost:8080/api/v1/auth/signup -H "Content-Type: application/json" -d '{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "password123"
+}'
+
+curl -X POST http://localhost:8080/api/v1/auth/login -H "Content-Type: application/json" -d '{
+  "email": "test@example.com",
+  "password": "password123"
+}'
+
+# Get Me
+curl -X GET http://localhost:8080/api/v1/users/me -H "Authorization: Bearer <your_access_token>"
+
+# Update Me
+curl -X PUT http://localhost:8080/api/v1/users/me -H "Authorization: Bearer <your_access_token>" -H "Content-Type: application/json" -d '{
+  "name": "New Name"
+}'
+
+# Groups
+curl -X POST http://localhost:8080/api/v1/groups -H "Authorization: Bearer <your_access_token>" -H "Content-Type: application/json" -d '{
+  "name": "Test Group"
+}'
+
+curl -X GET http://localhost:8080/api/v1/groups -H "Authorization: Bearer <your_access_token>"
+
+curl -X GET http://localhost:8080/api/v1/groups/<group_id> -H "Authorization: Bearer <your_access_token>"
+
+curl -X PUT http://localhost:8080/api/v1/groups/<group_id> -H "Authorization: Bearer <your_access_token>" -H "Content-Type: application/json" -d '{
+  "name": "New Group Name"
+}'
+
+curl -X DELETE http://localhost:8080/api/v1/groups/<group_id> -H "Authorization: Bearer <your_access_token>"
+
+# Expenses
+curl -X POST http://localhost:8080/api/v1/expenses -H "Authorization: Bearer <your_access_token>" -H "Content-Type: application/json" -d '{
+  "group_id": "<group_id>",
+  "amount": 100,
+  "currency": "USD",
+  "description": "Lunch",
+  "shares": [
+    {
+      "user_id": "<user_id>",
+      "share_amount": 50
+    }
+  ]
+}'
+
+curl -X GET http://localhost:8080/api/v1/expenses -H "Authorization: Bearer <your_access_token>"
+
+curl -X GET http://localhost:8080/api/v1/expenses/<expense_id> -H "Authorization: Bearer <your_access_token>"
+
+curl -X PUT http://localhost:8080/api/v1/expenses/<expense_id> -H "Authorization: Bearer <your_access_token>" -H "Content-Type: application/json" -d '{
+  "description": "New Description"
+}'
+
+curl -X DELETE http://localhost:8080/api/v1/expenses/<expense_id> -H "Authorization: Bearer <your_access_token>"
+
+# Balances
+curl -X GET http://localhost:8080/api/v1/balances/<user_id> -H "Authorization: Bearer <your_access_token>"
+
+curl -X GET http://localhost:8080/api/v1/groups/<group_id>/balances -H "Authorization: Bearer <your_access_token>"
+
+# Settlements
+curl -X POST http://localhost:8080/api/v1/settlements -H "Authorization: Bearer <your_access_token>" -H "Content-Type: application/json" -d '{
+  "group_id": "<group_id>",
+  "payee": "<payee_user_id>",
+  "amount": 50,
+  "currency": "USD"
+}'
+
+curl -X GET http://localhost:8080/api/v1/settlements -H "Authorization: Bearer <your_access_token>"
+
+curl -X GET http://localhost:8080/api/v1/settlements/<settlement_id> -H "Authorization: Bearer <your_access_token>"
+
+# WhatsApp Webhook
+curl -X POST http://localhost:8080/api/v1/whatsapp/webhook -H "Content-Type: application/json" -d '{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "WHATSAPP_BUSINESS_ACCOUNT_ID",
+      "changes": [
+        {
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": {
+              "display_phone_number": "PHONE_NUMBER",
+              "phone_number_id": "PHONE_NUMBER_ID"
+            },
+            "contacts": [
+              {
+                "profile": {
+                  "name": "NAME"
+                },
+                "wa_id": "SENDER_WA_ID"
+              }
+            ],
+            "messages": [
+              {
+                "from": "SENDER_WA_ID",
+                "id": "MESSAGE_ID",
+                "timestamp": "TIMESTAMP",
+                "text": {
+                  "body": "Hello"
+                },
+                "type": "text"
+              }
+            ]
+          },
+          "field": "messages"
+        }
+      ]
+    }
+  ]
+}'
